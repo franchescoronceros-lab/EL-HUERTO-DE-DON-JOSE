@@ -35,6 +35,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Cliente</th>
+                        <th>Plato</th>
+                        <th>Cantidad</th>
                         <th>Total</th>
                         <th>IGV</th>
                         <th>Fecha</th>
@@ -52,6 +54,14 @@
                         <td>{{ $sale->id }}</td>
 
                         <td>{{ $sale->customer->name }}</td>
+
+                        <td>
+                            {{ optional($sale->details->first())->medicine->name ?? '-' }}
+                        </td>
+
+                        <td>
+                            {{ optional($sale->details->first())->amount ?? 0 }}
+                        </td>
 
                         <td>S/. {{ number_format($sale->total,2) }}</td>
 
@@ -73,7 +83,8 @@
                                 @csrf
                                 @method('DELETE')
 
-                                <button class="btn btn-danger btn-sm">
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Eliminar este pedido?')">
                                     <i class="bi bi-trash"></i>
                                 </button>
 
@@ -86,7 +97,7 @@
                 @empty
 
                     <tr>
-                        <td colspan="6" class="text-center">
+                        <td colspan="8" class="text-center">
                             No existen pedidos registrados.
                         </td>
                     </tr>

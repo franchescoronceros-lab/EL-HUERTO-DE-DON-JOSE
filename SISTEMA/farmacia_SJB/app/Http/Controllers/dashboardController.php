@@ -12,15 +12,18 @@ class dashboardController extends Controller
     public function index()
     {
         $totalCategorias = Category::count();
-        $totalClientes = Customer::count();
-        $totalPlatos = Medicine::count();
-        $totalPedidos = Sale::count();
+        $totalClientes   = Customer::count();
+        $totalPlatos     = Medicine::count();
+        $totalPedidos    = Sale::count();
+
+        $ventasTotales = Sale::sum('total');
 
         return view('dashboard.index', compact(
             'totalCategorias',
             'totalClientes',
             'totalPlatos',
-            'totalPedidos'
+            'totalPedidos',
+            'ventasTotales'
         ));
     }
 }
