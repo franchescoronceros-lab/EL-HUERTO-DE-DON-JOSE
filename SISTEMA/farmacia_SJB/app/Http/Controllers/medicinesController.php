@@ -24,15 +24,24 @@ class medicinesController extends Controller
 
     public function store(Request $request)
     {
-        Medicine::create([
-            'category_id' => $request->category_id,
-            'name'        => $request->name,
-            'description' => $request->description,
-            'price'       => $request->price,
-            'stock'       => $request->stock,
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name' => 'required|max:255',
+            'description' => 'nullable',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
         ]);
 
-        return redirect()->route('medicines.index');
+        Medicine::create([
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+        ]);
+
+        return redirect()->route('medicines.index')
+            ->with('success', 'Plato registrado correctamente.');
     }
 
     public function show($id)
@@ -45,22 +54,31 @@ class medicinesController extends Controller
         $medicine = Medicine::findOrFail($id);
         $categories = Category::all();
 
-        return view('medicines.edit', compact('medicine','categories'));
+        return view('medicines.edit', compact('medicine', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'name' => 'required|max:255',
+            'description' => 'nullable',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+        ]);
+
         $medicine = Medicine::findOrFail($id);
 
         $medicine->update([
             'category_id' => $request->category_id,
-            'name'        => $request->name,
+            'name' => $request->name,
             'description' => $request->description,
-            'price'       => $request->price,
-            'stock'       => $request->stock,
+            'price' => $request->price,
+            'stock' => $request->stock,
         ]);
 
-        return redirect()->route('medicines.index');
+        return redirect()->route('medicines.index')
+            ->with('success', 'Plato actualizado correctamente.');
     }
 
     public function destroy($id)
@@ -69,6 +87,7 @@ class medicinesController extends Controller
 
         $medicine->delete();
 
-        return redirect()->route('medicines.index');
+        return redirect()->route('medicines.index')
+            ->with('success', 'Plato eliminado correctamente.');
     }
 }
