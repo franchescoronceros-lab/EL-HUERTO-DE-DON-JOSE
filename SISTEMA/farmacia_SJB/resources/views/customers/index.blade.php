@@ -12,7 +12,7 @@
             </p>
         </div>
 
-        <a href="#" class="btn btn-primary">
+        <a href="{{ route('customers.create') }}" class="btn btn-success">
             <i class="bi bi-plus-circle"></i>
             Nuevo cliente
         </a>
@@ -28,7 +28,7 @@
 
             <table class="table table-bordered table-hover">
 
-                <thead class="table-primary">
+                <thead class="table-success">
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>

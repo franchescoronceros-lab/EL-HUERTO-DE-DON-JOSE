@@ -5,23 +5,25 @@
 <div class="container-fluid p-4">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
+
         <div>
-            <h2 class="fw-bold">Gestión de Categorías</h2>
+            <h2 class="fw-bold">Gestión de Platos</h2>
             <p class="text-muted">
-                Listado general de categorías registradas en la base de datos.
+                Listado general de platos registrados en el restaurante.
             </p>
         </div>
 
-        <a href="{{ route('categories.create') }}" class="btn btn-success">
+        <a href="{{ route('medicines.create') }}" class="btn btn-success">
             <i class="bi bi-plus-circle"></i>
-            Nueva categoría
+            Nuevo plato
         </a>
+
     </div>
 
     <div class="card shadow-sm">
 
         <div class="card-header">
-            <strong>Categorías</strong>
+            <strong>Platos</strong>
         </div>
 
         <div class="card-body">
@@ -29,41 +31,52 @@
             <table class="table table-bordered table-hover">
 
                 <thead class="table-success">
+
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Fecha de registro</th>
-                        <th width="170">Acciones</th>
+                        <th>Categoría</th>
+                        <th>Plato</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
                     </tr>
+
                 </thead>
 
                 <tbody>
 
-                @forelse($categories as $category)
+                @forelse($medicines as $medicine)
 
                     <tr>
-                        <td>{{ $category->id }}</td>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->description }}</td>
-                        <td>{{ $category->created_at }}</td>
+
+                        <td>{{ $medicine->id }}</td>
 
                         <td>
+                            {{ $medicine->category->name ?? '-' }}
+                        </td>
 
-                            <a href="{{ route('categories.edit',$category->id) }}"
+                        <td>{{ $medicine->name }}</td>
+
+                        <td>S/. {{ number_format($medicine->price,2) }}</td>
+
+                        <td>{{ $medicine->stock }}</td>
+
+                        <td width="130">
+
+                            <a href="{{ route('medicines.edit',$medicine->id) }}"
                                class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i>
                             </a>
 
-                            <form action="{{ route('categories.destroy',$category->id) }}"
+                            <form action="{{ route('medicines.destroy',$medicine->id) }}"
                                   method="POST"
-                                  class="d-inline">
+                                  style="display:inline">
 
                                 @csrf
                                 @method('DELETE')
 
                                 <button class="btn btn-danger btn-sm"
-                                        onclick="return confirm('¿Eliminar categoría?')">
+                                        onclick="return confirm('¿Eliminar este plato?')">
                                     <i class="bi bi-trash"></i>
                                 </button>
 
@@ -76,9 +89,11 @@
                 @empty
 
                     <tr>
-                        <td colspan="5" class="text-center">
-                            No hay categorías registradas.
+
+                        <td colspan="6" class="text-center">
+                            No existen platos registrados.
                         </td>
+
                     </tr>
 
                 @endforelse

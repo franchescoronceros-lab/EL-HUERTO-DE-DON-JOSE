@@ -11,9 +11,13 @@ use App\Http\Controllers\salesController;
 
 Route::get('/', [dashboardController::class, 'index'])->name('dashboard.index');
 
-Route::get('/configuraciones', [configuracionesController::class, 'index'])->name('configuraciones.index');
+Route::get('/configuraciones', [configuracionesController::class, 'index'])
+    ->name('configuraciones.index');
+
+Route::resource('customers', customersController::class);
 
 Route::resource('categories', categoriesController::class);
+
 Route::resource('medicines', medicinesController::class);
-Route::resource('customer', customersController::class);
+
 Route::resource('sales', salesController::class);
