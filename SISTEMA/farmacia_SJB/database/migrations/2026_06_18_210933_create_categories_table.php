@@ -1,33 +1,46 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Http\Controllers;
 
-class CreateCategoriesTable extends Migration
+use Illuminate\Http\Request;
+use App\Models\Category;
+
+class categoriesController extends Controller
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function index()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->Text('description');
-            $table->timestamps();
-        });
+        $categorias = Category::all();
+
+        return view('TEMPLATES.administrador', compact('categorias'));
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function create()
     {
-        Schema::dropIfExists('categories');
+        //
+    }
+
+    public function store(Request $request)
+    {
+        //
+    }
+
+    public function show($id)
+    {
+        //
+    }
+
+    public function edit($id)
+    {
+        //
+    }
+
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    public function destroy($id)
+    {
+        //
     }
 }
