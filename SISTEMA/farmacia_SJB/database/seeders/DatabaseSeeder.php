@@ -8,11 +8,16 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // Llamada secuencial a los seeders del sistema
+        $this->call([
+            UserSeeder::class,
+            MenuCategorySeeder::class,
+            DishSeeder::class,
+            RestTableSeeder::class,
+            SettingSeeder::class, // Agregado aquí al final de la secuencia
+        ]);
     }
 }

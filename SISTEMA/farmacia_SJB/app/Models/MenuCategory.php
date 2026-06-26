@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Customer extends Model
+class MenuCategory extends Model
 {
     use HasFactory;
 
@@ -16,19 +16,17 @@ class Customer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'document_type',
-        'document_number',
         'name',
-        'email',
-        'phone',
-        'address',
+        'description',
+        'display_order',
+        'is_active',
     ];
 
     /**
-     * Relación: Un cliente puede registrar múltiples pedidos (historial de consumo).
+     * Relación: Una categoría agrupa a múltiples platos y bebidas.
      */
-    public function orders(): HasMany
+    public function dishes(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Dish::class);
     }
 }

@@ -1,23 +1,33 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-use App\Http\Controllers\dashboardController;
-use App\Http\Controllers\configuracionesController;
-use App\Http\Controllers\categoriesController;
-use App\Http\Controllers\medicinesController;
-use App\Http\Controllers\customersController;
-use App\Http\Controllers\salesController;
+// Redirección de la raíz del sitio al Login
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
-Route::get('/', [dashboardController::class, 'index'])->name('dashboard.index');
+// Rutas de Autenticación (Públicas)
+Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/configuraciones', [configuracionesController::class, 'index'])
-    ->name('configuraciones.index');
 
-Route::resource('customers', customersController::class);
+// ==========================================
+// RUTAS PROTEGIDAS POR AUTENTICACIÓN Y ROL
+// ==========================================
 
-Route::resource('categories', categoriesController::class);
+// Grupo exclusivo para Administradores
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return 'Panel de Administración de El Huerto de Don José - Próximamente';
+    })->name('admin.dashboard');
+});
 
-Route::resource('medicines', medicinesController::class);
-
-Route::resource('sales', salesController::class);
+// Grupo exclusivo para Waiters (Unificado con la Base de Datos)
+Route::middleware(['auth', 'role:waiter'])->group(function () {
+    Route::get('/mozo/dashboard', function () {
+        return 'Panel de Mozos (Mesas y Pedidos) - Próximamente';
+    })->name('waiter.dashboard');
+});
